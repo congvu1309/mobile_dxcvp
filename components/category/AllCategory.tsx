@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import { useNavigation } from "@react-navigation/native";
+import { API } from "constants/enum";
+import { CategoryModel } from "models/category";
+import { useEffect, useState } from "react";
 import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { CategoryModel } from '../../models/category';
-import { API } from '../../constants/enum';
-import { useNavigation } from '@react-navigation/native';
-import { AllCategoryNavigationProp, ProductByCategoryNavigationProp } from 'types';
+import Icon from "react-native-vector-icons/Ionicons";
+import { ProductByCategoryNavigationProp } from "types";
 
-const ListCategory = () => {
+const AllCategory = () => {
 
     const [categories, setCategories] = useState<CategoryModel[]>([]);
-    const navigation = useNavigation<AllCategoryNavigationProp | ProductByCategoryNavigationProp>();
+    const navigation = useNavigation<ProductByCategoryNavigationProp>();
+
+    const handleGoBack = () => {
+        navigation.goBack();
+    };
 
     useEffect(() => {
         fetchData();
@@ -18,7 +23,7 @@ const ListCategory = () => {
         try {
             const response = await fetch(`${API.URL}/get-all-category`);
             const data = await response.json();
-            setCategories(data.data.slice(0, 6));
+            setCategories(data.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
         }
@@ -55,42 +60,46 @@ const ListCategory = () => {
         </View>
     );
 
-    const renderFooter = () => {
-        return (
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                    style={styles.seeMoreButton}
-                    onPress={() => {
-                        navigation.navigate('AllCategory');
-                    }}
-                >
-                    <Text style={styles.buttonText}>Xem thêm</Text>
-                </TouchableOpacity>
-            </View>
-        );
-    };
-
     const handleItemPress = (id: number, title: string) => {
         navigation.navigate('ProductByCategory', { categoryId: id, categoryTitle: title });
     };
 
     return (
         <View style={styles.container}>
+            <View style={styles.arrowBack}>
+                <TouchableOpacity onPress={handleGoBack}>
+                    <Icon name="arrow-back" size={30} color="black" />
+                </TouchableOpacity>
+                <Text style={styles.title}>Danh sách</Text>
+            </View>
             <FlatList
                 data={categories}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={renderGridItem}
-                numColumns={3}
+                numColumns={3} // Display 3 items per row
                 contentContainerStyle={styles.listContainer}
-                ListFooterComponent={renderFooter}
             />
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        padding: 10,
+        marginTop: 20,
+    },
+    arrowBack: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 30,
+    },
+    title: {
+        fontSize: 24,
+        color: '#000',
+        textAlign: 'center',
+        flex: 1,
+        marginRight: 30,
     },
     listContainer: {
         paddingBottom: 16,
@@ -105,8 +114,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     image: {
-        width: 35,
-        height: 35,
+        width: 70,
+        height: 70,
     },
     placeholder: {
         width: 50,
@@ -117,26 +126,8 @@ const styles = StyleSheet.create({
         marginTop: 8,
         textAlign: 'center',
         color: '#000',
-        fontSize: 15,
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        marginTop: 5,
-        marginBottom: 5,
-        marginRight: 17
-    },
-    seeMoreButton: {
-        backgroundColor: '#ff0000',
-        padding: 10,
-        borderRadius: 8,
-        alignItems: 'center',
-    },
-    buttonText: {
-        color: '#fff',
-        fontWeight: 'bold',
-        textAlign: 'center',
+        fontSize: 18,
     },
 });
 
-export default ListCategory;
+export default AllCategory;

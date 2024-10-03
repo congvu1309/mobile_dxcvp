@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { ProductModel } from '../../models/product';
 import { API } from '../../constants/enum';
+import { useNavigation } from '@react-navigation/native';
+import { DetailProductNavigationProp } from 'types';
 
 const ListProduct = () => {
 
@@ -10,6 +12,7 @@ const ListProduct = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(false);
     const [isFetchingMore, setIsFetchingMore] = useState(false);
+    const navigation = useNavigation<DetailProductNavigationProp>();
 
     useEffect(() => {
         fetchProductData(currentPage);
@@ -34,7 +37,7 @@ const ListProduct = () => {
             }
 
             const totalCount = data.data.totalCount;
-            const totalPagesCount = Math.ceil(totalCount / 20); // Assuming 20 items per page
+            const totalPagesCount = Math.ceil(totalCount / 20);
             setTotalPages(totalPagesCount);
         } catch (error) {
             console.error('Failed to fetch product data:', error);
@@ -79,9 +82,7 @@ const ListProduct = () => {
     };
 
     const handleItemPress = (id: number) => {
-        // Handle the item press (e.g., navigate or show details)
-        console.log('Item ID:', id);
-        // Add your navigation logic here
+        navigation.navigate('DetailProduct', { productId: id });
     };
 
     return (
@@ -91,12 +92,12 @@ const ListProduct = () => {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={renderItem}
                 contentContainerStyle={styles.listContainer}
-                onEndReached={loadMoreProducts} // Trigger load more when end is reached
-                onEndReachedThreshold={0.5} // Trigger load when 50% of the list is reached
-                ListFooterComponent={isFetchingMore ? <ActivityIndicator size="large" color="#0000ff" /> : null} // Show loading spinner at the bottom
+                onEndReached={loadMoreProducts}
+                onEndReachedThreshold={0.5}
+                ListFooterComponent={isFetchingMore ? <ActivityIndicator size="large" color="#0000ff" /> : null}
             />
             {loading && currentPage === 1 && (
-                <ActivityIndicator size="large" color="#0000ff" /> // Show initial loading spinner when first fetching data
+                <ActivityIndicator size="large" color="#0000ff" />
             )}
         </View>
     );

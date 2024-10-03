@@ -2,6 +2,8 @@
 
 #import <React/RCTBundleURLProvider.h>
 
+#import <GoogleMaps/GoogleMaps.h>
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
