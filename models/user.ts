@@ -8,6 +8,7 @@ export class UserModel {
     avatar: any = null;
     role: string = '';
     status: string = '';
+    token: any = null;
 
     constructor(auth?: UserModel) {
         if (auth) {

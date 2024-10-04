@@ -10,6 +10,8 @@ import ProductByAddress from './components/search/ProductByAddress';
 import AllCategory from 'components/category/AllCategory';
 import ProductByCategory from 'components/category/ProductByCategory';
 import DetailProduct from 'components/product/DetailProduct';
+import Login from 'components/auth/Login';
+import Register from 'components/auth/Register';
 
 type TabParamList = {
   HomeScreen: undefined;
@@ -25,8 +27,15 @@ type HomeStackParamList = {
   DetailProduct: undefined;
 };
 
+type ProfileStackParamList = {
+  ProfileStackScreen: undefined;
+  Login: undefined;
+  Register: undefined;
+};
+
 const Tab = createBottomTabNavigator<TabParamList>();
 const HomeStack = createStackNavigator<HomeStackParamList>();
+const ProfileStack = createStackNavigator<ProfileStackParamList>();
 
 const HomeStackScreen = () => {
   return (
@@ -37,6 +46,16 @@ const HomeStackScreen = () => {
       <HomeStack.Screen name="ProductByCategory" component={ProductByCategory} />
       <HomeStack.Screen name="DetailProduct" component={DetailProduct} />
     </HomeStack.Navigator>
+  );
+};
+
+const ProfileStackScreen = () => {
+  return (
+    <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
+      <ProfileStack.Screen name="ProfileStackScreen" component={ProfileScreen} />
+      <ProfileStack.Screen name="Login" component={Login} />
+      <ProfileStack.Screen name="Register" component={Register} />
+    </ProfileStack.Navigator>
   );
 };
 
@@ -72,7 +91,7 @@ const App: React.FC = () => {
       >
         <Tab.Screen name="HomeScreen" component={HomeStackScreen} options={{ title: 'Trang chủ' }} />
         <Tab.Screen name="TripScreen" component={TripScreen} options={{ title: 'Chuyến đi' }} />
-        <Tab.Screen name="ProfileScreen" component={ProfileScreen} options={{ title: 'Trang cá nhân' }} />
+        <Tab.Screen name="ProfileScreen" component={ProfileStackScreen} options={{ title: 'Trang cá nhân' }} />
       </Tab.Navigator>
     </NavigationContainer>
   );

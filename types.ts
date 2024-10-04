@@ -6,6 +6,8 @@ export type RootStackParamList = {
     AllCategory: undefined;
     ProductByCategory: { categoryId: number, categoryTitle: string };
     DetailProduct:  { productId: number  };
+    Login: undefined;
+    Register: undefined;
 };
 
 export type ProductByAddresNavigationProp = StackNavigationProp<RootStackParamList, 'ProductByAddress'>;
@@ -20,3 +22,9 @@ export type ProductByCategoryRouteProp = RouteProp<RootStackParamList, 'ProductB
 
 export type DetailProductNavigationProp = StackNavigationProp<RootStackParamList, 'DetailProduct'>;
 export type DetailProductRouteProp = RouteProp<RootStackParamList, 'DetailProduct'>;
+
+export type LoginNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
+export type LoginRouteProp = RouteProp<RootStackParamList, 'Login'>;
+
+export type RegisterNavigationProp = StackNavigationProp<RootStackParamList, 'Register'>;
+export type RegisterRouteProp = RouteProp<RootStackParamList, 'Register'>;
