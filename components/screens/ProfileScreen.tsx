@@ -1,4 +1,5 @@
 import Login from "components/auth/Login";
+import ProfilePage from "components/profile/Profile";
 import userAuth from "hooks/authUser";
 import { View, StyleSheet, Text } from "react-native";
 
@@ -23,9 +24,7 @@ const ProfileScreen = () => {
     }
 
     return (
-        <View style={styles.container}>
-            <Text>Welcome, {user.email}!</Text>
-        </View>
+        <ProfilePage />
     );
 }
 

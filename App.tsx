@@ -12,6 +12,8 @@ import ProductByCategory from 'components/category/ProductByCategory';
 import DetailProduct from 'components/product/DetailProduct';
 import Login from 'components/auth/Login';
 import Register from 'components/auth/Register';
+import Profile from 'components/profile/Profile';
+import ChangePassword from 'components/profile/ChangePassword';
 
 type TabParamList = {
   HomeScreen: undefined;
@@ -31,6 +33,8 @@ type ProfileStackParamList = {
   ProfileStackScreen: undefined;
   Login: undefined;
   Register: undefined;
+  Profile: undefined;
+  ChangePassword: undefined;
 };
 
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -55,6 +59,8 @@ const ProfileStackScreen = () => {
       <ProfileStack.Screen name="ProfileStackScreen" component={ProfileScreen} />
       <ProfileStack.Screen name="Login" component={Login} />
       <ProfileStack.Screen name="Register" component={Register} />
+      <ProfileStack.Screen name="Profile" component={Profile} />
+      <ProfileStack.Screen name="ChangePassword" component={ChangePassword} />
     </ProfileStack.Navigator>
   );
 };

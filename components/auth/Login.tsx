@@ -3,13 +3,13 @@ import { API } from "constants/enum";
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Alert, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import { RegisterNavigationProp } from "types";
+import { ProfileStackScreenNavigationProp, RegisterNavigationProp } from "types";
 
 const Login = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const navigation = useNavigation<RegisterNavigationProp>();
+    const navigation = useNavigation<RegisterNavigationProp | ProfileStackScreenNavigationProp>();
     const [showPassword, setShowPassword] = useState(false);
 
     const handleLogin = async () => {
@@ -56,6 +56,9 @@ const Login = () => {
                     Alert.alert("Đã xảy ra lỗi!", "Người dùng bị chặn, liên hệ để tìm hiểu!");
                 } else {
                     Alert.alert("Thành công!", "Đăng nhập thành công!");
+                    setTimeout(() => {
+                        navigation.navigate("ProfileStackScreen");
+                    }, 1500);
                     // Reset the form fields after successful login
                     setEmail("");
                     setPassword("");

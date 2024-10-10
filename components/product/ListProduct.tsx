@@ -74,8 +74,8 @@ const ListProduct = () => {
                     resizeMode="cover"
                 />
                 <Text style={styles.itemTitle}>{item.title}</Text>
-                <Text style={styles.itemUserProductData}>Chủ nhà: {item.userProductData.name}</Text>
                 <Text style={styles.itemPrice}>{item.price} VND/đêm</Text>
+                <Text style={styles.itemUserProductData}>Chủ nhà: {item.userProductData.name}</Text>
 
             </TouchableOpacity>
         );

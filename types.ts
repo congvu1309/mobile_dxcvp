@@ -5,9 +5,11 @@ export type RootStackParamList = {
     ProductByAddress: { province: string };
     AllCategory: undefined;
     ProductByCategory: { categoryId: number, categoryTitle: string };
-    DetailProduct:  { productId: number  };
+    DetailProduct: { productId: number };
     Login: undefined;
     Register: undefined;
+    ProfileStackScreen: undefined;
+    ChangePassword: undefined;
 };
 
 export type ProductByAddresNavigationProp = StackNavigationProp<RootStackParamList, 'ProductByAddress'>;
@@ -28,3 +30,9 @@ export type LoginRouteProp = RouteProp<RootStackParamList, 'Login'>;
 
 export type RegisterNavigationProp = StackNavigationProp<RootStackParamList, 'Register'>;
 export type RegisterRouteProp = RouteProp<RootStackParamList, 'Register'>;
+
+export type ProfileStackScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ProfileStackScreen'>;
+export type ProfileStackScreenRouteProp = RouteProp<RootStackParamList, 'ProfileStackScreen'>;
+
+export type ChangePasswordNavigationProp = StackNavigationProp<RootStackParamList, 'ChangePassword'>;
+export type ChangePasswordRouteProp = RouteProp<RootStackParamList, 'ChangePassword'>;
