@@ -14,6 +14,7 @@ import Login from 'components/auth/Login';
 import Register from 'components/auth/Register';
 import Profile from 'components/profile/Profile';
 import ChangePassword from 'components/profile/ChangePassword';
+import InfoBook from 'components/book/InfoBook';
 
 type TabParamList = {
   HomeScreen: undefined;
@@ -27,6 +28,7 @@ type HomeStackParamList = {
   AllCategory: undefined;
   ProductByCategory: undefined;
   DetailProduct: undefined;
+  InfoBook: undefined;
 };
 
 type ProfileStackParamList = {
@@ -49,6 +51,7 @@ const HomeStackScreen = () => {
       <HomeStack.Screen name="AllCategory" component={AllCategory} />
       <HomeStack.Screen name="ProductByCategory" component={ProductByCategory} />
       <HomeStack.Screen name="DetailProduct" component={DetailProduct} />
+      <HomeStack.Screen name="InfoBook" component={InfoBook} />
     </HomeStack.Navigator>
   );
 };

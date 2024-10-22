@@ -79,13 +79,15 @@ const IntroduceAndUtilities: React.FC<IntroduceAndUtilitiesProps> = ({
                     );
                 })}
             </View>
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.button} onPress={handleToggleUtilities}>
-                    <Text style={styles.buttonText}>
-                        {showFullUtilities ? "Ẩn" : "Xem thêm "}
-                    </Text>
-                </TouchableOpacity>
-            </View>
+            {displayedUtilities.length > 6 && (
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity style={styles.button} onPress={handleToggleUtilities}>
+                        <Text style={styles.buttonText}>
+                            {showFullUtilities ? "Ẩn" : "Xem thêm "}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            )}
             <Text style={styles.houseRulesTitle}>Nội quy nhà</Text>
             <View style={styles.houseRules}>
                 <Text style={styles.houseTitle}>Nhận phòng sau: {checkIn}</Text>
@@ -115,7 +117,7 @@ const styles = StyleSheet.create({
         marginVertical: 20,
     },
     button: {
-        backgroundColor: '#007bff',
+        backgroundColor: '#ff0000',
         padding: 12,
         borderRadius: 8,
         alignItems: 'center',

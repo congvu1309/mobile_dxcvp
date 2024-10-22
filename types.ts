@@ -2,6 +2,7 @@ import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 export type RootStackParamList = {
+    HomeScreen: undefined,
     ProductByAddress: { province: string };
     AllCategory: undefined;
     ProductByCategory: { categoryId: number, categoryTitle: string };
@@ -10,11 +11,15 @@ export type RootStackParamList = {
     Register: undefined;
     ProfileStackScreen: undefined;
     ChangePassword: undefined;
+    InfoBook: { productId: any, startDate: string, endDate: string, numberOfDays: string, guestCount: string };
+    TripScreen: undefined,
 };
+
+export type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'HomeScreen'>;
+export type HomeScreenRouteProp = RouteProp<RootStackParamList, 'HomeScreen'>;
 
 export type ProductByAddresNavigationProp = StackNavigationProp<RootStackParamList, 'ProductByAddress'>;
 export type ProductByAddressRouteProp = RouteProp<RootStackParamList, 'ProductByAddress'>;
-
 
 export type AllCategoryNavigationProp = StackNavigationProp<RootStackParamList, 'AllCategory'>;
 export type AllCategorysRouteProp = RouteProp<RootStackParamList, 'AllCategory'>;
@@ -36,3 +41,9 @@ export type ProfileStackScreenRouteProp = RouteProp<RootStackParamList, 'Profile
 
 export type ChangePasswordNavigationProp = StackNavigationProp<RootStackParamList, 'ChangePassword'>;
 export type ChangePasswordRouteProp = RouteProp<RootStackParamList, 'ChangePassword'>;
+
+export type InfoBookNavigationProp = StackNavigationProp<RootStackParamList, 'InfoBook'>;
+export type InfoBookRouteProp = RouteProp<RootStackParamList, 'InfoBook'>;
+
+export type TripScreenNavigationProp = StackNavigationProp<RootStackParamList, 'TripScreen'>;
+export type TripScreenRouteProp = RouteProp<RootStackParamList, 'TripScreen'>;

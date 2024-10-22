@@ -2,7 +2,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { API } from "constants/enum";
 import { ProductModel } from "models/product";
 import { useEffect, useState } from "react";
-import { View, StyleSheet, TouchableOpacity, Text, ActivityIndicator, ScrollView } from "react-native"
+import { View, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView } from "react-native"
 import Icon from "react-native-vector-icons/Ionicons";
 import { DetailProductRouteProp } from "types";
 import { UtilitiesModel } from "models/utilities";
@@ -121,6 +121,7 @@ const DetailProduct = () => {
                             setShowFullUtilities={setShowFullUtilities}
                         />
                         <ScheduleFrame
+                            productId={product?.id}
                             priceProduct={product?.price}
                             schedules={schedules}
                             guests={product?.guests}

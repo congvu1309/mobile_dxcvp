@@ -1,15 +1,20 @@
 import { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native"
-import { differenceInDays, format, eachDayOfInterval, parse } from 'date-fns';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native"
+import { differenceInDays, format, eachDayOfInterval, parse, addDays, isBefore } from 'date-fns';
 import CalendarPicker, { ChangedDate } from 'react-native-calendar-picker';
-
+import userAuth from "hooks/authUser";
+import { InfoBookNavigationProp, LoginNavigationProp } from "types";
+import { useNavigation } from "@react-navigation/native";
+import { vietnameseMonths, vietnameseWeekdays } from "constants/converMonths";
 interface ScheduleFrameProps {
+    productId: number | undefined;
     priceProduct: string | undefined;
     schedules: Array<any> | undefined;
     guests: string | undefined;
 }
 
 const ScheduleFrame: React.FC<ScheduleFrameProps> = ({
+    productId,
     priceProduct,
     schedules,
     guests
@@ -23,13 +28,8 @@ const ScheduleFrame: React.FC<ScheduleFrameProps> = ({
         endDate: null,
     });
     const [guestCount, setGuestCount] = useState(1);
-
-    const vietnameseMonths = [
-        'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
-        'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
-    ];
-
-    const vietnameseWeekdays = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
+    const { user } = userAuth();
+    const navigation = useNavigation<InfoBookNavigationProp | LoginNavigationProp>();
 
     const { startDate, endDate } = selectionRange;
     const numberOfDays = endDate && startDate ? differenceInDays(endDate, startDate) : 0;
@@ -55,7 +55,6 @@ const ScheduleFrame: React.FC<ScheduleFrameProps> = ({
 
     const handleDateChange = (date: Date | null, type: ChangedDate) => {
         if (type === 'START_DATE') {
-            // Reset endDate when a new startDate is selected
             setSelectionRange({
                 startDate: date,
                 endDate: null,
@@ -78,8 +77,33 @@ const ScheduleFrame: React.FC<ScheduleFrameProps> = ({
     };
 
     const handleClickReservation = () => {
+        const minDate = addDays(new Date(), 0);
 
-    }
+        if (!startDate || isBefore(startDate, minDate)) {
+            Alert.alert("Ngày nhận phòng không thể là ngày hôm nay.");
+            return;
+        }
+
+        if (!endDate || isBefore(endDate, startDate) || endDate <= startDate) {
+            Alert.alert('Chọn ngày kết thúc.');
+            return;
+        }
+
+        if (user) {
+            const numberOfDaysStr = numberOfDays.toString();
+            const guestCountStr = guestCount.toString();
+
+            navigation.navigate('InfoBook', {
+                productId: productId,
+                startDate: format(startDate, 'dd/MM/yyyy'),
+                endDate: format(endDate, 'dd/MM/yyyy'),
+                numberOfDays: numberOfDaysStr,
+                guestCount: guestCountStr,
+            });
+        } else {
+            navigation.navigate('Login');
+        }
+    };
 
     return (
         <View style={styles.scheduleFrame}>
@@ -94,10 +118,10 @@ const ScheduleFrame: React.FC<ScheduleFrameProps> = ({
                 weekdays={vietnameseWeekdays}
                 previousTitle="Trước"
                 nextTitle="Sau"
-                selectedDayColor="#007bff"
+                selectedDayColor="#ff0000"
                 selectedDayTextColor="white"
-                selectedDayStyle={{ backgroundColor: '#007bff' }}
-                todayBackgroundColor="#007bff"
+                selectedDayStyle={{ backgroundColor: '#ff0000' }}
+                todayBackgroundColor="#ff0000"
                 textStyle={{ color: '#000' }}
             />
             <Text style={styles.selectedDate}>
@@ -188,14 +212,14 @@ const styles = StyleSheet.create({
     totalAmountLabel: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: 'red',
+        color: '#ff0000',
         marginBottom: 16,
     },
     buttonContainer: {
         marginBottom: 16,
     },
     button: {
-        backgroundColor: '#007bff',
+        backgroundColor: '#ff0000',
         padding: 12,
         borderRadius: 8,
         alignItems: 'center',

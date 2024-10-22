@@ -19,7 +19,12 @@ const MapViewComponent: React.FC<MapViewComponentProps> = ({ districts }) => {
 
             try {
                 const response = await axios.get(
-                    `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(districts)}&format=json&limit=1`
+                    `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(districts)}&format=json&limit=1`,
+                    {
+                        headers: {
+                            'User-Agent': 'MyApp (your-email@example.com)', 
+                        },
+                    }
                 );
                 const data = response.data;
 
@@ -31,8 +36,8 @@ const MapViewComponent: React.FC<MapViewComponentProps> = ({ districts }) => {
                     const initialRegion = {
                         latitude,
                         longitude,
-                        latitudeDelta: 0.015,
-                        longitudeDelta: 0.0121,
+                        latitudeDelta: 0.2,
+                        longitudeDelta: 0.2,
                     };
                     setRegion(initialRegion);
                     regionRef.current = initialRegion;

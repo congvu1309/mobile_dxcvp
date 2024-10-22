@@ -1,6 +1,6 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { View, Text, TouchableOpacity, StyleSheet, Image, ActivityIndicator, FlatList } from "react-native"
-import { ProductByCategoryRouteProp } from "types";
+import { DetailProductNavigationProp, ProductByCategoryRouteProp } from "types";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useEffect, useState } from "react";
 import { ProductModel } from "models/product";
@@ -8,7 +8,7 @@ import { API } from "constants/enum";
 
 const ProductByCategory = () => {
 
-    const navigation = useNavigation();
+    const navigation = useNavigation<DetailProductNavigationProp>();
     const route = useRoute<ProductByCategoryRouteProp>();
     const { categoryId } = route.params;
     const { categoryTitle } = route.params;
@@ -67,9 +67,7 @@ const ProductByCategory = () => {
     };
 
     const handleItemPress = (id: number) => {
-        // Handle the item press (e.g., navigate or show details)
-        console.log('Item ID:', id);
-        // Add your navigation logic here
+        navigation.navigate('DetailProduct', { productId: id });
     };
 
     return (

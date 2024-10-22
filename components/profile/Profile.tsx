@@ -6,6 +6,7 @@ import { Text, View, TextInput, TouchableOpacity, StyleSheet, Image, Alert } fro
 import Icon from "react-native-vector-icons/Ionicons";
 import { ChangePasswordNavigationProp, ProfileStackScreenNavigationProp } from "types";
 import { launchImageLibrary, ImageLibraryOptions } from "react-native-image-picker";
+import RNFS from 'react-native-fs';
 
 const Profile = () => {
     const { user, logout } = userAuth();
@@ -36,7 +37,7 @@ const Profile = () => {
 
             let imageBase64 = '';
             if (fetchedUser.avatar) {
-                imageBase64 = Buffer.from(fetchedUser.avatar.data, 'base64').toString('binary');
+                imageBase64 = Buffer.from(fetchedUser.avatar, 'base64').toString('binary');
             }
 
             // Set form data with fetched user data
@@ -66,16 +67,23 @@ const Profile = () => {
             quality: 0.7,
         };
 
-        launchImageLibrary(options, (response) => {
+        launchImageLibrary(options, async (response) => {
             if (response.didCancel) {
                 console.log('User cancelled image picker');
             } else if (response.errorCode) {
                 console.error('ImagePicker Error:', response.errorMessage);
                 Alert.alert("Error", "Failed to pick image");
             } else if (response.assets && response.assets.length > 0) {
-                const selectedImage = response.assets[0].uri ?? '';
-                setFormData({ ...formData, avatar: selectedImage });
-                console.log('Selected Image:', selectedImage);
+                const selectedImageUri = response.assets[0].uri ?? '';
+                try {
+                    // Convert the image to Base64
+                    const base64Image = await RNFS.readFile(selectedImageUri, 'base64');
+                    setFormData({ ...formData, avatar: `data:image/jpeg;base64,${base64Image}` });
+                    console.log('Selected Image Base64:', base64Image);
+                } catch (error) {
+                    console.error('Error converting image to Base64:', error);
+                    Alert.alert("Error", "Failed to process image.");
+                }
             } else {
                 console.error('No assets found in the response');
             }
@@ -84,7 +92,6 @@ const Profile = () => {
 
     const handleChangePassword = () => {
         navigation.navigate('ChangePassword');
-
     };
 
     const handleUpdate = async () => {
@@ -120,7 +127,6 @@ const Profile = () => {
         } catch (error) {
             Alert.alert("Error", "Có lỗi xảy ra, vui lòng thử lại.");
         }
-
     };
 
     return (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, FlatList, ActivityIndicator, Image } from 'react-native';
-import { ProductByAddressRouteProp } from 'types';
+import { DetailProductNavigationProp, ProductByAddressRouteProp } from 'types';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { ProductModel } from 'models/product';
@@ -9,7 +9,7 @@ import { API } from 'constants/enum';
 const ProductByAddress = () => {
 
     const route = useRoute<ProductByAddressRouteProp>();
-    const navigation = useNavigation();
+    const navigation = useNavigation<DetailProductNavigationProp>();
     const { province } = route.params;
     const [products, setProducts] = useState<ProductModel[]>([]);
     const [loading, setLoading] = useState(true);
@@ -66,9 +66,7 @@ const ProductByAddress = () => {
     };
 
     const handleItemPress = (id: number) => {
-        // Handle the item press (e.g., navigate or show details)
-        console.log('Item ID:', id);
-        // Add your navigation logic here
+        navigation.navigate('DetailProduct', { productId: id });
     };
 
     return (

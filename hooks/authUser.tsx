@@ -2,12 +2,12 @@ import { useNavigation } from "@react-navigation/native";
 import { API } from "constants/enum";
 import { UserModel } from "models/user";
 import { useEffect, useState } from "react";
-import { LoginNavigationProp } from "types";
+import { HomeScreenNavigationProp } from "types";
 
 const userAuth = () => {
     const [user, setUser] = useState<UserModel | null>(null);
     const [loading, setLoading] = useState(true);
-    const navigation = useNavigation<LoginNavigationProp>();
+    const navigation = useNavigation<HomeScreenNavigationProp>();
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -51,9 +51,10 @@ const userAuth = () => {
 
             if (response.ok) {
                 setUser(null);
-                setTimeout(() => {
-                    navigation.navigate("Login");
-                }, 1500);
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'HomeScreen' }],
+                });
             } else {
                 const data = await response.json();
                 console.error('Logout failed:', data.message);
